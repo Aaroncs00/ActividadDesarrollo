@@ -1,0 +1,113 @@
+//1. Validar el número
+  2. Calcular la secuencia de Fibonacci
+  3. Tomar la secuencia Fibonacci calculada e invertirla
+  4. Crear un array que acumule el número de veces que aparece cada uno de los valores
+    del array invertido 
+
+
+using System;
+
+namespace PAC_Desarrollo_Ariko
+{
+    public class Program
+    {
+        static void Main(string[] args)
+        {
+            // Declaración de variables
+            int numero = 0;
+            int[] sec_fibo;
+
+            // Ejecución del programa
+
+            // Validar el número
+            do
+            {
+                Console.Write("Inserta el número de elementos de Fibonacci a calcular: ");
+                numero = Int32.Parse(Console.ReadLine());
+            } while (!NumeroValido(numero));
+
+            // Calcular la secuencia Fibonacci
+            sec_fibo = SecuenciaFibo(numero);
+
+            // Invertir la secuencia Fibonacci
+            sec_fibo = SecuenciaReverse(sec_fibo);
+
+            // Obtener la primera posición donde aparece el número que más veces está en el array
+            Console.WriteLine(PosicionNumeroMasVisto(sec_fibo));
+
+            // Finalizar el programa
+            Console.ReadKey();
+        }
+
+        public static bool NumeroValido(int numero)
+        {
+            return numero >= 3 && numero <= 20;
+        }
+
+        public static int[] SecuenciaFibo(int numero)
+        {
+            int[] fibonacci = new int[numero];
+            if (numero >= 1)
+            {
+                fibonacci[0] = 0;
+            }
+            if (numero >= 2)
+            {
+                fibonacci[1] = 1;
+            }
+            for (int i = 2; i < numero; i++)
+            {
+                fibonacci[i] = fibonacci[i - 1] + fibonacci[i - 2];
+            }
+            return fibonacci;
+        }
+
+        public static int[] SecuenciaReverse(int[] directo)
+        {
+            int[] invertido = new int[directo.Length];
+            for (int i = 0; i < directo.Length; i++)
+            {
+                invertido[i] = directo[directo.Length - 1 - i];
+            }
+            return invertido;
+        }
+
+        public static string PosicionNumeroMasVisto(int[] arr_secuencia)
+        {
+            int[] contadores = new int[arr_secuencia.Length];
+            for (int i = 0; i < arr_secuencia.Length; i++)
+            {
+                for (int j = 0; j < arr_secuencia.Length; j++)
+                {
+                    if (arr_secuencia[i] == arr_secuencia[j])
+                    {
+                        contadores[i]++;
+                    }
+                }
+            }
+
+            int maxRepeticiones = 0;
+            int valorMasRepetido = 0;
+            int posicion = 0;
+
+            for (int i = 0; i < arr_secuencia.Length; i++)
+            {
+                if (contadores[i] > maxRepeticiones)
+                {
+                    maxRepeticiones = contadores[i];
+                    valorMasRepetido = arr_secuencia[i];
+                    posicion = i;
+                }
+            }
+
+            if (maxRepeticiones > 1)
+            {
+                return "El valor " + valorMasRepetido + " se repite " + maxRepeticiones + " veces según la posición " + posicion + " del array bidimensional.";
+            }
+            else
+            {
+                return "Todos los valores de la secuencia aparecen por igual.";
+            }
+        }
+    }
+}
